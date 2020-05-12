@@ -1,0 +1,189 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap");
+@media screen and (max-width: 376px) {
+  #headerTitle {
+    font-size: 1rem !important;
+  }
+
+  #filter {
+    display: block !important;
+  }
+  #filter #countrySearch {
+    margin-top: 10px !important;
+  }
+
+  #main {
+    justify-content: center !important;
+  }
+  #main #card {
+    max-width: 19rem !important;
+  }
+
+  #subcontainer {
+    display: block !important;
+  }
+  #subcontainer #wrapperImg {
+    width: 100%;
+    margin: 15px auto;
+  }
+  #subcontainer #wrapperImg img {
+    width: 100%;
+  }
+  #subcontainer #wrapperInfo {
+    width: 100%;
+  }
+  #subcontainer #wrapperInfo #item2 {
+    position: static;
+    margin-top: 20px;
+  }
+  #subcontainer #wrapperInfo footer {
+    display: block !important;
+  }
+  #subcontainer #wrapperInfo footer p {
+    margin-bottom: 10px !important;
+  }
+}
+body {
+  font-family: "Nunito Sans", sans-serif;
+  margin: 0px;
+  font-size: 14px;
+  position: relative;
+  background-color: #fafafa;
+}
+
+select:selected {
+  color: gray;
+}
+
+option:focus {
+  outline: none;
+}
+
+option[value=""] {
+  display: none;
+}
+
+.btn:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+
+#header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 1px 1px 4px 1px #b8b8b8;
+  background-color: #ffffff;
+}
+#header #headerTitle {
+  font-weight: 600;
+}
+#header #mybtn {
+  background-color: #ffffff;
+  font-weight: 600;
+}
+#header #mybtn::Before {
+  content: "🌙 ";
+}
+
+#filter #search {
+  box-shadow: 1px 1px 4px 1px #b8b8b8;
+  width: 280px;
+  border: none;
+  padding: 8px 5px;
+  border-radius: 3px;
+}
+#filter #search:focus {
+  outline: none;
+}
+#filter #countrySearch {
+  box-shadow: 1px 1px 4px 1px #b8b8b8;
+  background-color: #ffffff;
+}
+
+#main #card {
+  max-width: 15rem;
+}
+
+.darkMode {
+  background-color: #2b3945 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.darkMode_2 {
+  background-color: #202c37 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.searchDark {
+  background-color: #2b3945 !important;
+  color: #ffffff;
+  box-shadow: none !important;
+}
+.searchDark:hover {
+  color: #ffffff;
+}
+
+.searchDark::-webkit-input-placeholder {
+  color: #ffffff;
+}
+
+.cardDark {
+  background-color: #2b3945;
+  color: #ffffff;
+}
+
+#moreInfo {
+  visibility: hidden;
+  width: 100%;
+  height: 90vh;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+#wrapperImg {
+  width: 60%;
+  height: 400px;
+  box-sizing: border-box;
+}
+#wrapperImg img {
+  width: 90%;
+  height: inherit;
+  object-fit: cover;
+}
+
+.show {
+  visibility: visible !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#wrapperInfo {
+  width: 50%;
+  height: 300px;
+  position: relative;
+}
+
+#subcontainer {
+  height: 80vh;
+}
+
+#back {
+  box-shadow: 1px 1px 4px 1px #c2c2c2;
+}
+
+#item1 {
+  display: inline-block;
+}
+
+#item2 {
+  display: inline-block;
+  position: absolute;
+  top: 17%;
+  right: 0;
+}
+
