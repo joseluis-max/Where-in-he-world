@@ -100,9 +100,12 @@ option[value=""] {
   background-color: #ffffff;
 }
 
+<<<<<<< HEAD
 #main {
   justify-content: space-around !important;
 }
+=======
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
 #main #card {
   max-width: 15rem;
 }
@@ -138,7 +141,11 @@ option[value=""] {
 }
 
 #moreInfo {
+<<<<<<< HEAD
   visibility: visible;
+=======
+  visibility: hidden;
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
   width: 100%;
   height: 90vh;
   position: absolute;
@@ -190,4 +197,7 @@ option[value=""] {
   right: 0;
 }
 
+<<<<<<< HEAD
 /*# sourceMappingURL=estilos.css.map */
+=======
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39

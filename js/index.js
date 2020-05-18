@@ -8,6 +8,10 @@ const moreInfo = document.getElementById('moreInfo');
 const country = document.querySelectorAll('#country');
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
 darkModeButton.addEventListener('click',()=>{
   header.classList.toggle('darkMode');
   darkModeButton.classList.toggle('darkMode')
@@ -17,13 +21,17 @@ darkModeButton.addEventListener('click',()=>{
   search.classList.toggle('searchDark')
   countrySearch.classList.toggle('searchDark')
   let card = document.querySelectorAll('#card');
+<<<<<<< HEAD
   back.classList.toggle('searchDark')
+=======
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
   card.forEach((c)=>{
     c.classList.toggle('cardDark')
   })
   country.forEach((c)=>{
     c.classList.toggle('searchDark')
   })
+<<<<<<< HEAD
   let borbutton = document.querySelectorAll('.bor')
   borbutton.forEach(b => {
     b.classList.toggle('searchDark')
@@ -33,6 +41,13 @@ darkModeButton.addEventListener('click',()=>{
 function innerCard(city) {
   main.innerHTML =""
   for (let c of city) {
+=======
+  back.classList.toggle('searchDark')
+})
+function insertar_carta(ciudad) {
+  main.innerHTML =""
+  for (let c of ciudad) {
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
       main.innerHTML += `
       <div class="card mb-2 mt-2" id="card">
         <img src="${c.flag}" class="card-img-top" alt="Bandera de ${c['name']}">
@@ -46,17 +61,29 @@ function innerCard(city) {
       `
     }
 }
+<<<<<<< HEAD
 async function consultation() {
      await fetch('https://restcountries.eu/rest/v2/all')
     .then(res=>res.json())
     .then(res=>{
       innerCard(res)
+=======
+async function consulta() {
+     await fetch('https://restcountries.eu/rest/v2/all')
+    .then(res=>res.json())
+    .then(res=>{
+      insertar_carta(res)
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
       let card = document.querySelectorAll('#card');
       card.forEach(c => {
         c.addEventListener('click', function(){
           console.dir(this)
           let name = this.children[1].children[0].innerText;
+<<<<<<< HEAD
           consultation_info(name)
+=======
+          consulta_2(name)
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
         })
       })
     })
@@ -64,12 +91,21 @@ async function consultation() {
     console.log(err)
     })
 }
+<<<<<<< HEAD
 consultation()
 async function consultation_name(name) {
      await fetch(`https://restcountries.eu/rest/v2/name/${name}`)
     .then(res=>res.json())
     .then(res=>{
      innerCard(res)
+=======
+consulta()
+async function consulta_name(name) {
+     await fetch(`https://restcountries.eu/rest/v2/name/${name}`)
+    .then(res=>res.json())
+    .then(res=>{
+     insertar_carta(res)
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
       let card = document.querySelectorAll('#card');
       card.forEach(c => {
         c.addEventListener('click', function(){
@@ -83,11 +119,20 @@ async function consultation_name(name) {
       console.log(err)
     })
 }
+<<<<<<< HEAD
 async function consultation_info(name) {
      await fetch(`https://restcountries.eu/rest/v2/name/${name}`)
     .then(res=>res.json())
     .then(res=>{
      innerInfo(res)
+=======
+async function consulta_2(nombre) {
+  console.log(nombre)
+     await fetch(`https://restcountries.eu/rest/v2/name/${nombre}`)
+    .then(res=>res.json())
+    .then(res=>{
+     insertar_info(res)
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
      showMoreInfo()
      const back = document.getElementById('back');
      back.addEventListener('click',()=>{
@@ -98,6 +143,7 @@ async function consultation_info(name) {
     console.log(err)
     })
 }
+<<<<<<< HEAD
 async function consultation_alpha(alpha) {
   console.dir(alpha.innerHTML)
      await fetch(`https://restcountries.eu/rest/v2/alpha/${alpha.innerHTML}`)
@@ -124,6 +170,19 @@ async function consultation_region(region) {
         c.addEventListener('click', function(){
           let name = this.children[1].children[0].innerText;
           consulta_info(name)
+=======
+async function consulta_region(region) {
+     await fetch(`https://restcountries.eu/rest/v2/region/${region}`)
+    .then(res=>res.json())
+    .then(res=>{
+     insertar_carta(res)
+      let card = document.querySelectorAll('#card');
+      card.forEach(c => {
+        c.addEventListener('click', function(){
+          console.dir(this)
+          let name = this.children[1].children[0].innerText;
+          consulta_2(name)
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
         })
       })
     })
@@ -131,12 +190,17 @@ async function consultation_region(region) {
     console.log(err)
     })
 }
+<<<<<<< HEAD
 function innerInfo(c) {
   c = c[0]
   let len = ""
   for (const l of c['languages']) {
     len += " " + l.name
   }
+=======
+function insertar_info(c) {
+  c = c[0]
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
   moreInfo.innerHTML = `
     <div class="container"><button class="btn mt-3" id="back">Back</button></div>
      <div class="d-flex container justify-content-center align-items-center" id="subcontainer">
@@ -155,17 +219,27 @@ function innerInfo(c) {
           <div id="item2">
            <p class="card-text"><strong>Top Level Domain:</strong>${c.topLevelDomain}</p>
            <p class="card-text"><strong>Currencies:</strong> ${c.currencies[0]['name']}</p>
+<<<<<<< HEAD
            <p class="card-text id="len"><strong>Languages:</strong> ${len}</p>
          </div>
          <footer class="d-flex justify-content-center align-items-center mt-5">
            <p class="align-content-center mb-0 mr-2">Border Countries:</p>
            <div id="borders">
            
+=======
+           <p class="card-text"><strong>Lenguages:</strong    </p>
+         </div>
+         <footer class="d-flex justify-content-center align-items-center mt-5">
+           <p class="align-content-center mb-0 mr-2">Border Countries:</p>
+           <div>
+           ${c.borders}
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
            </div>
          </footer>
        </div>
      </div>
   `
+<<<<<<< HEAD
   let bor = document.getElementById('borders')
   for (const b of c['borders']) {
       bor.innerHTML += `
@@ -222,12 +296,16 @@ function innerborder(c) {
   })
 }
 
+=======
+}
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
 function showMoreInfo() {
   let info = document.getElementById('moreInfo');
     info.classList.toggle('show')
     main.classList.toggle('hidden')
     filter.classList.toggle('hidden')
 }
+<<<<<<< HEAD
 function showMoreInfoBorder(){
   let info = document.getElementById('moreInfo');
     info.classList.add('show')
@@ -242,5 +320,15 @@ countrySearch.addEventListener('change',function(){
 search.addEventListener('keyup',function(){
   console.log(this.value)
   consultation_name(this.value)
+=======
+
+countrySearch.addEventListener('change',function(){
+  console.log(this.value)
+  consulta_region(this.value)
+})
+search.addEventListener('keyup',function(){
+  console.log(this.value)
+  consulta_name(this.value)
+>>>>>>> 0323780fb25aaf7fe65083de607abc9e0ecb5b39
 })
 
