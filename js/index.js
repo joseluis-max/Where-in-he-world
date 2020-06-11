@@ -185,7 +185,7 @@ function innerborder(c) {
     len += " " + l.name
   }
   moreInfo.innerHTML = `
-    <div class="container"><button class="btn mt-3" id="back">Back</button></div>
+    <div class="container">
        <figure class="" id="wrapperImg">
          <img src="${c.flag}" alt="">
        </figure>
