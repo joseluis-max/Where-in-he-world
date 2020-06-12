@@ -172,7 +172,6 @@ option[value=""] {
 #wrapperImg img {
   width: 90%;
   height: inherit;
-  object-fit: cover;
 }
 
 .show {
@@ -183,12 +182,20 @@ option[value=""] {
   display: none !important;
 }
 
+#wrapperInfo {
+  margin-left: 20px;
+}
+
 #subcontainer {
   height: 80vh;
 }
 
 #back {
   box-shadow: 1px 1px 4px 1px #c2c2c2;
+}
+
+#item2 {
+  margin-left: 20px;
 }
 
 .pin {

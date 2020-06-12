@@ -43,11 +43,11 @@ function innerCard(city) {
      c.region === "" ? hidden_r = "hidden": null
      c.capital === "" ? hidden_c = "hidden": null
       main.innerHTML += `
-      <div class="card mb-2 mt-2" id="card">
+      <div class="card mb-2 mt-2 ${mode == true ? "cardDark":""} " id="card">
         <img src="${c.flag}" class="card-img-top" alt="Bandera de ${c['name']}">
         <div class="card-body">
           <h4 class="card-title font-weight-bold">${c.nativeName}</h4>
-          <p class="card-text ${hidden_p}"><strong>Population:</strong> ${c.population}</p>
+          <p class="card-text ${hidden_p}"><strong>Population:</strong> ${population}</p>
           <p class="card-text  ${hidden_r}"><strong>Region:</strong> ${c.region}</p>
           <p class="card-text  ${hidden_c}"><strong>Capital:</strong> ${c.capital}</p>
         </div>
@@ -78,13 +78,6 @@ async function consultation_name(name) {
       if (ajax.readyState == 4 && ajax.status == 200) {
         let datos = JSON.parse(ajax.responseText)
         innerCard(datos)
-        let card = document.querySelectorAll('#card');
-        card.forEach(c => {
-          c.addEventListener('click', function(){
-            let name = this.children[1].children[0].innerText;
-            consultation_info(name)
-          })
-        })
       }
     }
     ajax.open("GET",`https://restcountries.eu/rest/v2/name/${name}`,true)
@@ -132,13 +125,6 @@ async function consultation_region(region) {
     .then(res=>res.json())
     .then(res=>{
      innerCard(res)
-      let card = document.querySelectorAll('#card');
-      card.forEach(c => {
-        c.addEventListener('click', function(){
-          let name = this.children[1].children[0].innerText;
-          consulta_info(name)
-        })
-      })
     })
    .catch((err)=>{
     console.log(err)
@@ -151,17 +137,6 @@ function innerInfo(c) {
   for (const l of c['languages']) {
     len += " " + l.name
   }
-  let hidden = ""
-  let hidden_p = ""
-  let hidden_r = ""
-  let hidden_c = ""
-  let hidden_s = ""
-    c['borders'].length == 0 ? hidden = "hidden": null
-    c.population == 0? hidden_p = "hidden":null
-    c.region === "" ? hidden_r = "hidden": null
-    c.capital === "" ? hidden_c = "hidden": null
-    c.capital === "" ? hidden_s = "hidden": null
-
   moreInfo.innerHTML = `
     <div class="container"><button class="btn mt-3" id="back">Back</button></div>
      <div class="d-flex container justify-content-center align-items-center" id="subcontainer">
@@ -173,10 +148,10 @@ function innerInfo(c) {
           <div class="d-flex  justify-content-between">
           <div id="item1">
             <p class="card-text"><strong>Native Name:</strong> ${c.nativeName}</p>
-            <p class="card-text"><strong>Population:</strong> ${c.population}</p>
-            <p class="card-text"><strong>Region:</strong> ${c.region}</p>
-            <p class="card-text"><strong>Sub Region:</strong> ${c.subregion}</p>
-            <p class="card-text"><strong>Capital:</strong> ${c.capital}</p>
+            <p class="card-text ${c.population == 0? hidden_p = "hidden":""}"><strong>Population:</strong> ${c.population}</p>
+            <p class="card-text ${ c.region === "" ? hidden_r = "hidden": ""}"><strong>Region:</strong> ${c.region}</p>
+            <p class="card-text ${c.capital === "" ? hidden_s = "hidden": ""} ><strong>Sub Region:</strong> ${c.subregion}</p>
+            <p class="card-text ${ c.capital === "" ? hidden_c = "hidden":""}"><strong>Capital:</strong> ${c.capital}</p>
           </div>
             <div id="item2">
             <p class="card-text"><strong>Top Level Domain:</strong>${c.topLevelDomain}</p>
@@ -185,7 +160,7 @@ function innerInfo(c) {
           </div>
          </div>
          <footer class="d-flex justify-content-center align-items-center mt-5">
-           <p class="align-content-center mb-0 mr-2 ${hidden}" id="BC">Border Countries:</p>
+           <p class="align-content-center mb-0 mr-2 ${ c['borders'].length == 0 ? hidden = "hidden":""}" id="BC">Border Countries:</p>
            <div id="borders">
            
            </div>
@@ -214,21 +189,21 @@ function innerborder(c) {
   for (const l of c['languages']) {
     len += " " + l.name
   }
-  moreInfo.innerHTML = `
-     <div class="container"><button class="btn mt-3" id="back">Back</button></div>
+    moreInfo.innerHTML = `
+    <div class="container"><button class="btn mt-3" id="back">Back</button></div>
      <div class="d-flex container justify-content-center align-items-center" id="subcontainer">
        <figure class="" id="wrapperImg">
          <img src="${c.flag}" alt="">
        </figure>
        <div class="" id="wrapperInfo">
             <h4 class="mb-4">${c.name}</h4>
-         <div  class="d-flex justify-content-between">
+          <div class="d-flex  justify-content-between">
           <div id="item1">
             <p class="card-text"><strong>Native Name:</strong> ${c.nativeName}</p>
-            <p class="card-text"><strong>Population:</strong> ${c.population}</p>
-            <p class="card-text"><strong>Region:</strong> ${c.region}</p>
-            <p class="card-text"><strong>Sub Region:</strong> ${c.subregion}</p>
-            <p class="card-text"><strong>Capital:</strong> ${c.capital}</p>
+            <p class="card-text ${c.population == 0? hidden_p = "hidden":""}"><strong>Population:</strong> ${c.population}</p>
+            <p class="card-text ${ c.region === "" ? hidden_r = "hidden": ""}"><strong>Region:</strong> ${c.region}</p>
+            <p class="card-text ${c.capital === "" ? hidden_s = "hidden": ""} ><strong>Sub Region:</strong> ${c.subregion}</p>
+            <p class="card-text ${ c.capital === "" ? hidden_c = "hidden":""}"><strong>Capital:</strong> ${c.capital}</p>
           </div>
             <div id="item2">
             <p class="card-text"><strong>Top Level Domain:</strong>${c.topLevelDomain}</p>
@@ -237,13 +212,13 @@ function innerborder(c) {
           </div>
          </div>
          <footer class="d-flex justify-content-center align-items-center mt-5">
-           <p class="align-content-center mb-0 mr-2">Border Countries:</p>
+           <p class="align-content-center mb-0 mr-2 ${ c['borders'].length == 0 ? hidden = "hidden":""}" id="BC">Border Countries:</p>
            <div id="borders">
            
            </div>
          </footer>
        </div>
-     </div>s
+     </div>
   `
   let bor = document.getElementById('borders')
   if (!c['borders'].length == 0) {
@@ -279,6 +254,7 @@ search.addEventListener('keyup',function(ev){
   if (ev.code == "Enter"&& !ev.target.value == "" ) {
       consultation_name(this.value)
   } else if (ev.code == 'Backspace' && ev.target.value == ""){
+    main.innerHTML =` <div class="pin"></div class="pin">`
     consultation()
   }
 })
