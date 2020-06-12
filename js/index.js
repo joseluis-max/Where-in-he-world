@@ -1,3 +1,4 @@
+
 const main = document.getElementById('main');
 const darkModeButton = document.getElementById('mybtn');
 const header = document.getElementById('header');
@@ -7,7 +8,10 @@ const countrySearch = document.getElementById('countrySearch');
 const moreInfo = document.getElementById('moreInfo');
 const country = document.querySelectorAll('#country');
 
+let mode = false
+
 darkModeButton.addEventListener('click',()=>{
+  mode? mode = false: mode = true
   header.classList.toggle('darkMode');
   darkModeButton.classList.toggle('darkMode')
   main.classList.toggle('darkMode_2')
@@ -16,16 +20,11 @@ darkModeButton.addEventListener('click',()=>{
   search.classList.toggle('searchDark')
   countrySearch.classList.toggle('searchDark')
   let card = document.querySelectorAll('#card');
-  back.classList.toggle('searchDark')
   card.forEach((c)=>{
     c.classList.toggle('cardDark')
   })
   country.forEach((c)=>{
     c.classList.toggle('searchDark')
-  })
-  let borbutton = document.querySelectorAll('.bor')
-  borbutton.forEach(b => {
-    b.classList.toggle('searchDark')
   })
 })
 
@@ -45,13 +44,14 @@ function innerCard(city) {
       `
     }
 }
-
+consultation()
 async function consultation() {
-     await fetch('https://restcountries.eu/rest/v2/all')
-    .then(res=>res.json())
-    .then(res=>{
-      innerCard(res)
-      let card = document.querySelectorAll('#card');
+  let ajax = new XMLHttpRequest()
+  ajax.onreadystatechange = ()=>{
+    if (ajax.readyState == 4 && ajax.status == 200) {
+      let datos = JSON.parse(ajax.responseText)
+       innerCard(datos)
+       let card = document.querySelectorAll('#card');
       card.forEach(c => {
         c.addEventListener('click', function(){
           console.dir(this)
@@ -59,30 +59,34 @@ async function consultation() {
           consultation_info(name)
         })
       })
-    })
-   .catch((err)=>{
-    console.log(err)
-    })
+    }
+  }
+  ajax.open("GET","https://restcountries.eu/rest/v2/all",true)
+  ajax.send()
 }
-consultation()
-async function consultation_name(name) {
-     await fetch(`https://restcountries.eu/rest/v2/name/${name}`)
-    .then(res=>res.json())
-    .then(res=>{
-     innerCard(res)
 
-      let card = document.querySelectorAll('#card');
-      card.forEach(c => {
-        c.addEventListener('click', function(){
-          console.dir(this)
-          let name = this.children[1].children[0].innerText;
-          consulta_2(name)
+async function consultation_name(name) {
+   if (name == "") {
+     consultation()
+   } else {
+     let ajax = new XMLHttpRequest()
+      ajax.onreadystatechange = ()=>{
+      if (ajax.readyState == 4 && ajax.status == 200) {
+        let datos = JSON.parse(ajax.responseText)
+        innerCard(datos)
+        let card = document.querySelectorAll('#card');
+        card.forEach(c => {
+          c.addEventListener('click', function(){
+            console.dir(this)
+            let name = this.children[1].children[0].innerText;
+            consultation_info(name)
+          })
         })
-      })
-    })
-   .catch((err)=>{
-      console.log(err)
-    })
+      }
+    }
+    ajax.open("GET",`https://restcountries.eu/rest/v2/name/${name}`,true)
+    ajax.send()
+   }
 }
 async function consultation_info(name) {
      await fetch(`https://restcountries.eu/rest/v2/name/${name}`)
@@ -91,8 +95,11 @@ async function consultation_info(name) {
      innerInfo(res)
      showMoreInfo()
      const back = document.getElementById('back');
+     let borbutton = document.querySelectorAll('.bor')
+     mode ?  borbutton.forEach(b => {b.classList.toggle('searchDark')}):null
+     mode ? back.classList.add('searchDark'): null
      back.addEventListener('click',()=>{
-      showMoreInfo()
+     showMoreInfo()
 })
     })
    .catch((err)=>{
@@ -100,13 +107,15 @@ async function consultation_info(name) {
     })
 }
 async function consultation_alpha(alpha) {
-  console.dir(alpha.innerHTML)
      await fetch(`https://restcountries.eu/rest/v2/alpha/${alpha.innerHTML}`)
     .then(res=>res.json())
     .then(res=>{
      innerborder(res)
      showMoreInfoBorder()
+     let borbutton = document.querySelectorAll('.bor')
+       mode ?  borbutton.forEach(b => {b.classList.toggle('searchDark')}):null
      const back = document.getElementById('back');
+     mode ? back.classList.add('searchDark'): null
      back.addEventListener('click',()=>{
       showMoreInfo()
 })
@@ -185,7 +194,8 @@ function innerborder(c) {
     len += " " + l.name
   }
   moreInfo.innerHTML = `
-    <div class="container">
+     <div class="container"><button class="btn mt-3" id="back">Back</button></div>
+     <div class="d-flex container justify-content-center align-items-center" id="subcontainer">
        <figure class="" id="wrapperImg">
          <img src="${c.flag}" alt="">
        </figure>
@@ -210,7 +220,7 @@ function innerborder(c) {
            </div>
          </footer>
        </div>
-     </div>
+     </div>s
   `
   let bor = document.getElementById('borders')
   for (const b of c['borders']) {
@@ -238,11 +248,14 @@ function showMoreInfoBorder(){
 }
 
 countrySearch.addEventListener('change',function(){
-  console.log(this.value)
   consultation_region(this.value)
 })
-search.addEventListener('keyup',function(){
-  console.log(this.value)
-  consultation_name(this.value)
+search.addEventListener('keyup',function(ev){
+  console.log(ev.code)
+  if (ev.code == "Enter"&& !ev.target.value == "" ) {
+      consultation_name(this.value)
+  } else if (ev.code == 'Backspace' && ev.target.value == ""){
+    consultation()
+  }
 })
 
