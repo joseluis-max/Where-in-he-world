@@ -12,6 +12,7 @@ let mode = false
 
 darkModeButton.addEventListener('click',()=>{
   mode? mode = false: mode = true
+  console.log(mode)
   header.classList.toggle('darkMode');
   darkModeButton.classList.toggle('darkMode')
   main.classList.toggle('darkMode_2')
@@ -26,20 +27,31 @@ darkModeButton.addEventListener('click',()=>{
   country.forEach((c)=>{
     c.classList.toggle('searchDark')
   })
+  let borbutton = document.querySelectorAll('.bor')
+     mode ?  borbutton.forEach(b => {b.classList.add('searchDark')}):borbutton.forEach(b => {b.classList.remove('searchDark')})
+     const back = document.getElementById('back');
+     mode ? back.classList.add('searchDark'): back.classList.remove('searchDark')
 })
 
 function innerCard(city) {
   main.innerHTML =""
   for (let c of city) {
+    let hidden_p = ""
+    let hidden_r = ""
+    let hidden_c = ""
+     c.population == 0? hidden_p = "hidden":null
+     c.region === "" ? hidden_r = "hidden": null
+     c.capital === "" ? hidden_c = "hidden": null
       main.innerHTML += `
       <div class="card mb-2 mt-2" id="card">
         <img src="${c.flag}" class="card-img-top" alt="Bandera de ${c['name']}">
         <div class="card-body">
-          <h4 class="card-title font-weight-bold">${c.name}</h4>
-          <p class="card-text"><strong>Population:</strong> ${c.population}</p>
-          <p class="card-text"><strong>Region:</strong> ${c.region}</p>
-          <p class="card-text"><strong>Capital:</strong> ${c.capital}</p>
+          <h4 class="card-title font-weight-bold">${c.nativeName}</h4>
+          <p class="card-text ${hidden_p}"><strong>Population:</strong> ${c.population}</p>
+          <p class="card-text  ${hidden_r}"><strong>Region:</strong> ${c.region}</p>
+          <p class="card-text  ${hidden_c}"><strong>Capital:</strong> ${c.capital}</p>
         </div>
+        <button onclick="consultation_info('${c.name}')" class="btn btn-outline-info" id="info" >More info...</button>
       </div>
       `
     }
@@ -51,14 +63,6 @@ async function consultation() {
     if (ajax.readyState == 4 && ajax.status == 200) {
       let datos = JSON.parse(ajax.responseText)
        innerCard(datos)
-       let card = document.querySelectorAll('#card');
-      card.forEach(c => {
-        c.addEventListener('click', function(){
-          console.dir(this)
-          let name = this.children[1].children[0].innerText;
-          consultation_info(name)
-        })
-      })
     }
   }
   ajax.open("GET","https://restcountries.eu/rest/v2/all",true)
@@ -77,7 +81,6 @@ async function consultation_name(name) {
         let card = document.querySelectorAll('#card');
         card.forEach(c => {
           c.addEventListener('click', function(){
-            console.dir(this)
             let name = this.children[1].children[0].innerText;
             consultation_info(name)
           })
@@ -96,8 +99,8 @@ async function consultation_info(name) {
      showMoreInfo()
      const back = document.getElementById('back');
      let borbutton = document.querySelectorAll('.bor')
-     mode ?  borbutton.forEach(b => {b.classList.toggle('searchDark')}):null
-     mode ? back.classList.add('searchDark'): null
+     mode ?  borbutton.forEach(b => {b.classList.add('searchDark')}): borbutton.forEach(b => {b.classList.remove('searchDark')})
+     mode ? back.classList.add('searchDark'): back.classList.remove('searchDark')
      back.addEventListener('click',()=>{
      showMoreInfo()
 })
@@ -113,9 +116,9 @@ async function consultation_alpha(alpha) {
      innerborder(res)
      showMoreInfoBorder()
      let borbutton = document.querySelectorAll('.bor')
-       mode ?  borbutton.forEach(b => {b.classList.toggle('searchDark')}):null
+     mode ?  borbutton.forEach(b => {b.classList.add('searchDark')}):borbutton.forEach(b => {b.classList.remove('searchDark')})
      const back = document.getElementById('back');
-     mode ? back.classList.add('searchDark'): null
+     mode ? back.classList.add('searchDark'): back.classList.remove('searchDark')
      back.addEventListener('click',()=>{
       showMoreInfo()
 })
@@ -141,12 +144,24 @@ async function consultation_region(region) {
     console.log(err)
     })
 }
+
 function innerInfo(c) {
   c = c[0]
   let len = ""
   for (const l of c['languages']) {
     len += " " + l.name
   }
+  let hidden = ""
+  let hidden_p = ""
+  let hidden_r = ""
+  let hidden_c = ""
+  let hidden_s = ""
+    c['borders'].length == 0 ? hidden = "hidden": null
+    c.population == 0? hidden_p = "hidden":null
+    c.region === "" ? hidden_r = "hidden": null
+    c.capital === "" ? hidden_c = "hidden": null
+    c.capital === "" ? hidden_s = "hidden": null
+
   moreInfo.innerHTML = `
     <div class="container"><button class="btn mt-3" id="back">Back</button></div>
      <div class="d-flex container justify-content-center align-items-center" id="subcontainer">
@@ -155,20 +170,22 @@ function innerInfo(c) {
        </figure>
        <div class="" id="wrapperInfo">
             <h4 class="mb-4">${c.name}</h4>
-         <div id="item1">
-          <p class="card-text"><strong>Native Name:</strong> ${c.nativeName}</p>
-          <p class="card-text"><strong>Population:</strong> ${c.population}</p>
-          <p class="card-text"><strong>Region:</strong> ${c.region}</p>
-          <p class="card-text"><strong>Sub Region:</strong> ${c.subregion}</p>
-          <p class="card-text"><strong>Capital:</strong> ${c.capital}</p>
-         </div>
-          <div id="item2">
-           <p class="card-text"><strong>Top Level Domain:</strong>${c.topLevelDomain}</p>
-           <p class="card-text"><strong>Currencies:</strong> ${c.currencies[0]['name']}</p>
-           <p class="card-text id="len"><strong>Languages:</strong> ${len}</p>
+          <div class="d-flex  justify-content-between">
+          <div id="item1">
+            <p class="card-text"><strong>Native Name:</strong> ${c.nativeName}</p>
+            <p class="card-text"><strong>Population:</strong> ${c.population}</p>
+            <p class="card-text"><strong>Region:</strong> ${c.region}</p>
+            <p class="card-text"><strong>Sub Region:</strong> ${c.subregion}</p>
+            <p class="card-text"><strong>Capital:</strong> ${c.capital}</p>
+          </div>
+            <div id="item2">
+            <p class="card-text"><strong>Top Level Domain:</strong>${c.topLevelDomain}</p>
+            <p class="card-text"><strong>Currencies:</strong> ${c.currencies[0]['name']}</p>
+            <p class="card-text id="len"><strong>Languages:</strong> ${len}</p>
+          </div>
          </div>
          <footer class="d-flex justify-content-center align-items-center mt-5">
-           <p class="align-content-center mb-0 mr-2">Border Countries:</p>
+           <p class="align-content-center mb-0 mr-2 ${hidden}" id="BC">Border Countries:</p>
            <div id="borders">
            
            </div>
@@ -178,16 +195,20 @@ function innerInfo(c) {
   `
 
   let bor = document.getElementById('borders')
-  for (const b of c['borders']) {
+  if (!c['borders'].length == 0) {
+    for (const b of c['borders']) {
       bor.innerHTML += `
       <button class="bor btn">${b}</button>
       `
-  }
-  let borbutton = document.querySelectorAll('.bor')
-  borbutton.forEach(b => {
+    }
+    let borbutton = document.querySelectorAll('.bor')
+    borbutton.forEach(b => {
     b.addEventListener('click', function(){consultation_alpha(this)})
-  })
+    })
+  }
 }
+
+
 function innerborder(c) {
   let len = ""
   for (const l of c['languages']) {
@@ -201,17 +222,19 @@ function innerborder(c) {
        </figure>
        <div class="" id="wrapperInfo">
             <h4 class="mb-4">${c.name}</h4>
-         <div id="item1">
-          <p class="card-text"><strong>Native Name:</strong> ${c.nativeName}</p>
-          <p class="card-text"><strong>Population:</strong> ${c.population}</p>
-          <p class="card-text"><strong>Region:</strong> ${c.region}</p>
-          <p class="card-text"><strong>Sub Region:</strong> ${c.subregion}</p>
-          <p class="card-text"><strong>Capital:</strong> ${c.capital}</p>
-         </div>
-          <div id="item2">
-           <p class="card-text"><strong>Top Level Domain:</strong>${c.topLevelDomain}</p>
-           <p class="card-text"><strong>Currencies:</strong> ${c.currencies[0]['name']}</p>
-           <p class="card-text id="len"><strong>Languages:</strong> ${len}</p>
+         <div  class="d-flex justify-content-between">
+          <div id="item1">
+            <p class="card-text"><strong>Native Name:</strong> ${c.nativeName}</p>
+            <p class="card-text"><strong>Population:</strong> ${c.population}</p>
+            <p class="card-text"><strong>Region:</strong> ${c.region}</p>
+            <p class="card-text"><strong>Sub Region:</strong> ${c.subregion}</p>
+            <p class="card-text"><strong>Capital:</strong> ${c.capital}</p>
+          </div>
+            <div id="item2">
+            <p class="card-text"><strong>Top Level Domain:</strong>${c.topLevelDomain}</p>
+            <p class="card-text"><strong>Currencies:</strong> ${c.currencies[0]['name']}</p>
+            <p class="card-text id="len"><strong>Languages:</strong> ${len}</p>
+          </div>
          </div>
          <footer class="d-flex justify-content-center align-items-center mt-5">
            <p class="align-content-center mb-0 mr-2">Border Countries:</p>
@@ -223,15 +246,17 @@ function innerborder(c) {
      </div>s
   `
   let bor = document.getElementById('borders')
-  for (const b of c['borders']) {
+  if (!c['borders'].length == 0) {
+    for (const b of c['borders']) {
       bor.innerHTML += `
       <button class="bor btn">${b}</button>
       `
-  }
-  let borbutton = document.querySelectorAll('.bor')
-  borbutton.forEach(b => {
+    }
+    let borbutton = document.querySelectorAll('.bor')
+    borbutton.forEach(b => {
     b.addEventListener('click', function(){consultation_alpha(this)})
-  })
+    })
+  }
 }
 
 function showMoreInfo() {
@@ -251,7 +276,6 @@ countrySearch.addEventListener('change',function(){
   consultation_region(this.value)
 })
 search.addEventListener('keyup',function(ev){
-  console.log(ev.code)
   if (ev.code == "Enter"&& !ev.target.value == "" ) {
       consultation_name(this.value)
   } else if (ev.code == 'Backspace' && ev.target.value == ""){
