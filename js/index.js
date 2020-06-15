@@ -7,7 +7,7 @@ const search = document.getElementById('search');
 const countrySearch = document.getElementById('countrySearch');
 const moreInfo = document.getElementById('moreInfo');
 const country = document.querySelectorAll('#country');
-
+ 
 let mode = false
 
 darkModeButton.addEventListener('click',()=>{
@@ -32,10 +32,27 @@ darkModeButton.addEventListener('click',()=>{
      const back = document.getElementById('back');
      mode ? back.classList.add('searchDark'): back.classList.remove('searchDark')
 })
-
+function addDot({population}){
+  population = new String(population)
+  if (population.length == 3) {
+    population = population
+  }else if (population.length <= 6) {
+    population = population.slice(0,population.length-3) + "." + population.slice(population.length - 3,population.length)
+  }else if (population.length <= 9){
+    population = population.slice(0,population.length-3) + "." + population.slice(population.length - 3,population.length)
+    population = population.slice(0,population.length-7) + "." + population.slice(population.length - 7,population.length)
+  }else{
+    population = population.slice(0,population.length-3) + "." + population.slice(population.length - 3,population.length)
+    population = population.slice(0,population.length-7) + "." + population.slice(population.length - 7,population.length)
+    population = population.slice(0,population.length-11) + "." + population.slice(population.length - 11,population.length)
+  }
+    console.log(population)
+    return population
+}
 function innerCard(city) {
   main.innerHTML =""
   for (let c of city) {
+    let population = addDot(c)
     let hidden_p = ""
     let hidden_r = ""
     let hidden_c = ""
