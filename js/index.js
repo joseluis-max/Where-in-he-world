@@ -11,8 +11,7 @@ const country = document.querySelectorAll('#country');
 let mode = false
 
 darkModeButton.addEventListener('click', () => {
-  mode ? mode = false : mode = true
-  console.log(mode)
+  mode ? mode = false : mode = true;
   header.classList.toggle('darkMode');
   darkModeButton.classList.toggle('darkMode')
   main.classList.toggle('darkMode_2')
@@ -46,7 +45,6 @@ function addDot({ population }) {
     population = population.slice(0, population.length - 7) + "." + population.slice(population.length - 7, population.length)
     population = population.slice(0, population.length - 11) + "." + population.slice(population.length - 11, population.length)
   }
-  console.log(population)
   return population
 }
 function innerCard(city) {
@@ -74,9 +72,10 @@ async function consultation() {
     if (ajax.readyState == 4 && ajax.status == 200) {
       let datos = JSON.parse(ajax.responseText)
       innerCard(datos)
+      console.log(datos)
     }
   }
-  ajax.open("GET", "https://restcountries.eu/rest/v2/all", true)
+  ajax.open("GET", "https://restcountries.com/v2/all", true)
   ajax.send()
 }
 
@@ -91,12 +90,12 @@ async function consultation_name(name) {
         innerCard(datos)
       }
     }
-    ajax.open("GET", `https://restcountries.eu/rest/v2/name/${name}`, true)
+    ajax.open("GET", `https://restcountries.com/v2/name/${name}`, true)
     ajax.send()
   }
 }
 async function consultation_info(name) {
-  await fetch(`https://restcountries.eu/rest/v2/name/${name}`)
+  await fetch(`https://restcountries.com/v2/name/${name}`)
     .then(res => res.json())
     .then(res => {
       innerInfo(res)
@@ -114,7 +113,7 @@ async function consultation_info(name) {
     })
 }
 async function consultation_alpha(alpha) {
-  await fetch(`https://restcountries.eu/rest/v2/alpha/${alpha.innerHTML}`)
+  await fetch(`https://restcountries.com/v2/alpha/${alpha.innerHTML}`)
     .then(res => res.json())
     .then(res => {
       innerborder(res)
@@ -132,7 +131,7 @@ async function consultation_alpha(alpha) {
     })
 }
 async function consultation_region(region) {
-  await fetch(`https://restcountries.eu/rest/v2/region/${region}`)
+  await fetch(`https://restcountries.com/v2/region/${region}`)
     .then(res => res.json())
     .then(res => {
       innerCard(res)
@@ -172,17 +171,19 @@ function innerInfo(c) {
           </div>
          </div>
          <footer class="d-flex justify-content-center align-items-center mt-5">
-           <p class="align-content-center mb-0 mr-2 ${ c['borders'].length == 0 ? hidden = "hidden" : ""}" id="BC">Border Countries:</p>
-           <div id="borders">
-           
-           </div>
+          <p class="align-content-center mb-0 mr-2 ${ c['borders'] != undefined && c['borders'].length == 0 ? hidden = "hidden" : ""}" id="BC">
+            Border Countries:
+          </p>
+          <div id="borders">
+          
+          </div>
          </footer>
        </div>
      </div>
   `
 
   let bor = document.getElementById('borders')
-  if (!c['borders'].length == 0) {
+  if (c['borders'] != undefined && !c['borders'].length == 0) {
     for (const b of c['borders']) {
       bor.innerHTML += `
       <button class="bor btn">${b}</button>
@@ -225,7 +226,7 @@ function innerborder(c) {
           </div>
          </div>
          <footer class="d-flex justify-content-center align-items-center mt-5">
-           <p class="align-content-center mb-0 mr-2 ${ c['borders'].length == 0 ? hidden = "hidden" : ""}" id="BC">Border Countries:</p>
+           <p class="align-content-center mb-0 mr-2 ${ c['borders'] != undefined && c['borders'].length == 0 ? hidden = "hidden" : ""}" id="BC">Border Countries:</p>
            <div id="borders">
            
            </div>
@@ -234,7 +235,7 @@ function innerborder(c) {
      </div>
   `
   let bor = document.getElementById('borders')
-  if (!c['borders'].length == 0) {
+  if (c['borders'] != undefined && !c['borders'].length == 0) {
     for (const b of c['borders']) {
       bor.innerHTML += `
       <button class="bor btn">${b}</button>
